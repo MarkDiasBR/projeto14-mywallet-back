@@ -8,7 +8,9 @@ export default async function signinValidation(req, res, next) {
 
     try {
         user = await db.collection('users').findOne({ email: email });
-        if (!user) return res.status(404).send('🚫 E-mail is not registered!');        
+        if (!user) return res.status(404).send('🚫 E-mail is not registered!'); 
+        
+        
     } catch (err) {
         res.status(500).send(`🚫 Unexpected server error!\n\n${err.message}`);
     }
