@@ -2,16 +2,17 @@ import { Router } from 'express'
 import { authValidation } from '../middlewares/auth.middleware.js';
 import { schemaParamsTypeValidation, schemaValidation } from '../middlewares/schema.middleware.js';
 import { transactionParamsSchema, transactionSchema } from '../schemas/transactions.schemas.js';
-import { postTransaction, getTransactions, deleteTransaction } from '../controllers/auth.controller.js';
+import { postTransaction, getTransactions, deleteTransaction, editTransaction } from '../controllers/auth.controller.js';
 
 const authRouter = Router();
 
+authRouter.use(authValidation);
 authRouter.post('/new-transaction/:type',
-                authValidation,
                 schemaValidation(transactionSchema),
                 schemaParamsTypeValidation(transactionParamsSchema),
                 postTransaction);
-authRouter.get('/transactions', authValidation, getTransactions);
-authRouter.delete('/transaction/:id', authValidation, deleteTransaction);
+authRouter.get('/transactions', getTransactions);
+authRouter.delete('/transaction/:id', deleteTransaction);
+authRouter.put('/transaction/:id', schemaValidation(transactionSchema), editTransaction)
 
 export default authRouter;

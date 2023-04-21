@@ -9,13 +9,7 @@ import { signup, signin } from '../controllers/user.controller.js';
 
 const userRouter = Router();
 
-// userRouter.post('/sign-up', functionA)
 userRouter.post('/sign-up', schemaValidation(signupSchema), signupConflictValidation, signup);
 userRouter.post('/sign-in', schemaValidation(signinSchema), signinValidation, signin);
 
 export default userRouter;
-
-function functionA(req, res) {
-    console.log("A")
-    res.sendStatus(203);
-}
