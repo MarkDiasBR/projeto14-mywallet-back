@@ -12,24 +12,19 @@ export async function signup(req, res) {
         await db.collection('users').insertOne({ name, email, password: hash });
         res.status(201).send('✅ User created SUCESSFULLY!');
     } catch (err) {
-        res.status(500).send(`🚫 Unknown server error!\n\n${err.message}`);
+        res.status(500).send(`🚫 Unexpected server error!\n\n${err.message}`);
     }
 }
 
 export async function signin(req, res) {
-    const { email, senha } = req.body
+
+    const user = res.locals.user;
 
     try {
-        const usuario = await db.collection("usuarios").findOne({ email })
-        if (!usuario) return res.status(401).send("E-mail não cadastrado.")
-
-        const senhaEstaCorreta = bcrypt.compareSync(senha, usuario.senha)
-        if (!senhaEstaCorreta) return res.status(401).send("Senha incorreta")
-
         const token = uuid()
-        await db.collection("sessoes").insertOne({ token, idUsuario: usuario._id })
-        res.send(token)
+        await db.collection('sessions').insertOne({ token, userId: user._id })
+        res.send(token);
     } catch (err) {
-        res.status(500).send(err.message)
+        res.status(500).send(`🚫 Unexpected server error!\n\n${err.message}`);
     }
 }
