@@ -2,7 +2,8 @@ import joi from 'joi';
 
 export const transactionSchema = joi.object({
     title: joi.string().required(),
-    value: joi.number().precision(2).strict().required()
+    value: joi.number().precision(2).strict().required(),
+    date: joi.string().required()
 });
 
 export const transactionParamsSchema = joi.object({
